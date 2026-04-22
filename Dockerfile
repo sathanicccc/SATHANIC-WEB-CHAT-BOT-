@@ -1,17 +1,12 @@
+# Step 1: Use official Node.js image
 FROM node:22-slim
 
-# Step 1: Install Python, FFmpeg, and essential tools
+# Step 2: Install FFmpeg for Audio processing (Noise/Beat cancellation)
+# Nammal API vazhi download cheyyunnathukondu Python eni venda.
 RUN apt-get update && apt-get install -y \
-    python3 \
-    python3-pip \
-    python3-full \
     ffmpeg \
     curl \
     && rm -rf /var/lib/apt/lists/*
-
-# Step 2: Install yt-dlp via binary (This is the most stable way for bots)
-RUN curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o /usr/local/bin/yt-dlp \
-    && chmod a+rx /usr/local/bin/yt-dlp
 
 # Step 3: Set working directory
 WORKDIR /usr/src/app
