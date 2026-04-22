@@ -1,51 +1,51 @@
 const express = require('express');
 const cors = require('cors');
-const { spawn } = require('child_process'); // spawn aanu exec-nekkal stable
+const axios = require('axios');
+const ffmpeg = require('fluent-ffmpeg');
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 
+// 1. Bot Status (Ping)
 app.get('/api/ping', (req, res) => {
-    res.json({ status: "Sathanic Bot Online 🔥", ping: "Running stable" });
+    res.json({ 
+        status: "Sathanic Bot Online 🔥", 
+        ping: "Running stable",
+        server: "Koyeb Cloud" 
+    });
 });
 
-// MP3 Downloader Updated Logic
-app.get('/api/download/yt', (req, res) => {
+// 2. Downloader (Bot Detection Bypass Logic)
+app.get('/api/download/yt', async (req, res) => {
     const videoURL = req.query.url;
     if (!videoURL) return res.status(400).send("URL venam!");
 
-    // Response Headers - Browser-inu file MP3 aano ennu manasilakan
-    res.setHeader('Content-Type', 'audio/mpeg');
-    res.setHeader('Content-Disposition', 'attachment; filename="sathanic_audio.mp3"');
+    try {
+        // YouTube block bypass cheyyaan external high-speed API upayogikkunnu
+        const apiRes = await axios.get(`https://api.vyt.download/fetch?url=${encodeURIComponent(videoURL)}`);
+        const finalLink = apiRes.data.url;
 
-    // yt-dlp logic with spawn for better streaming
-    const ytDlp = spawn('yt-dlp', [
-        '-f', 'bestaudio',
-        '--extract-audio',
-        '--audio-format', 'mp3',
-        '--audio-quality', '0', // Highest quality
-        '-o', '-', // Output to stdout
-        videoURL
-    ]);
-
-    // Data stream cheyyunnu
-    ytDlp.stdout.pipe(res);
-
-    // Error handling for debugging
-    ytDlp.stderr.on('data', (data) => {
-        console.error(`Sathanic Bot Debug: ${data}`);
-    });
-
-    ytDlp.on('close', (code) => {
-        if (code !== 0) {
-            console.error(`yt-dlp exited with code ${code}`);
+        if (finalLink) {
+            // Direct download link-ilekku redirect cheyyunnu
+            res.redirect(finalLink);
+        } else {
+            res.status(500).send("Download link generate cheyyaan pattiyilla. Link check cheyyu!");
         }
-    });
+    } catch (err) {
+        console.error("Sathanic Error:", err.message);
+        res.status(500).send("YouTube block detection active aanu. Pinne try cheyyu!");
+    }
+});
+
+// 3. Audio Pro (Voice Only / Beat Removal) - Basic Setup
+app.post('/api/audio/process', (req, res) => {
+    // Ippo thalkkaalam feature load cheyyanulla response
+    res.json({ message: "Audio processing module is initializing..." });
 });
 
 // Port setting for Koyeb
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, '0.0.0.0', () => {
-    console.log(`Sathanic Server running on port ${PORT}`);
+    console.log(`Sathanic Server is LIVE on port ${PORT}`);
 });
