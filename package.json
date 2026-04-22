@@ -1,11 +1,10 @@
 {
   "name": "sathanic-whatsapp-bot",
   "version": "1.0.0",
-  "description": "WhatsApp Interface Bot",
+  "description": "WhatsApp Interface Bot with Downloader and Cloud Storage",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
-    "postinstall": "npm install --package-lock=false"
+    "start": "node server.js"
   },
   "dependencies": {
     "express": "^4.18.2",
@@ -13,10 +12,11 @@
     "fluent-ffmpeg": "^2.1.2",
     "cors": "^2.8.5",
     "@distube/ytdl-core": "^4.16.12",
-    "instagram-url-direct": "^1.2.2"
+    "instagram-url-direct": "^1.2.2",
+    "form-data": "^4.0.0",
+    "dotenv": "^16.0.3"
   },
   "engines": {
     "node": "22.x"
   }
 }
-
