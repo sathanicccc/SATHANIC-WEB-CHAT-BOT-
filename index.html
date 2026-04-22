@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sathanic WhatsApp</title>
+    <style>
+        /* Modern & Cyberpunk Styles */
+        body, html { margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #0b141a; color: white; overflow: hidden; }
+        
+        /* Welcome Screen */
+        #welcome-screen {
+            position: fixed; width: 100%; height: 100%; background: black;
+            display: flex; justify-content: center; align-items: center; z-index: 100;
+            flex-direction: column; text-align: center;
+        }
+        #welcome-screen h1 { color: #00ff41; font-size: 2.5rem; text-shadow: 0 0 10px #00ff41; animation: glow 1.5s infinite alternate; }
+        
+        /* WhatsApp Interface */
+        #main-container { display: none; height: 100vh; grid-template-columns: 30% 70%; }
+        #sidebar { background: #111b21; border-right: 1px solid #222d32; }
+        #chat-area { background: #0b141a; display: flex; flex-direction: column; }
+        
+        .header { background: #202c33; padding: 15px; display: flex; align-items: center; font-weight: bold; }
+        .features-list { padding: 10px; }
+        .feature-item { padding: 15px; border-bottom: 1px solid #222d32; cursor: pointer; transition: 0.3s; }
+        .feature-item:hover { background: #2a3942; }
+
+        @keyframes glow { from { opacity: 0.5; } to { opacity: 1; } }
+    </style>
+</head>
+<body>
+
+    <div id="welcome-screen">
+        <h1>SATHANIC WHATSAPP<br>CHAT TO WELCOME</h1>
+        <p>Initializing Secure System...</p>
+        <button onclick="startApp()" style="margin-top:20px; padding:10px 20px; background:#25d366; border:none; border-radius:5px; cursor:pointer;">ENTER CHAT</button>
+    </div>
+
+    <div id="main-container">
+        <div id="sidebar">
+            <div class="header">Sathanic Bot Features</div>
+            <div class="features-list">
+                <div class="feature-item" onclick="showTool('downloader')">📥 All Downloader</div>
+                <div class="feature-item" onclick="showTool('sticker')">🎨 Sticker Maker</div>
+                <div class="feature-item" onclick="showTool('audio')">🎵 Audio Pro (Voice Only)</div>
+                <div class="feature-item" onclick="showTool('cloud')">🔒 Secure Cloud</div>
+                <div class="feature-item" onclick="showTool('status')">⚡ Bot Status (Ping)</div>
+            </div>
+        </div>
+        <div id="chat-area">
+            <div class="header" id="tool-title">Welcome to Sathanic Bot</div>
+            <div id="display-area" style="padding:20px; flex-grow:1; overflow-y:auto;">
+                <p>Select a tool from the sidebar to start.</p>
+            </div>
+            <div style="background:#202c33; padding:15px; display:flex;">
+                <input type="text" placeholder="Type a command (e.g. .alive)" style="flex-grow:1; padding:10px; border-radius:20px; border:none; outline:none; background:#2a3942; color:white;">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function startApp() {
+            document.getElementById('welcome-screen').style.display = 'none';
+            document.getElementById('main-container').style.display = 'grid';
+        }
+
+        function showTool(tool) {
+            let area = document.getElementById('display-area');
+            let title = document.getElementById('tool-title');
+            
+            if(tool === 'downloader') {
+                title.innerText = "Downloader (Insta, YT, Audio)";
+                area.innerHTML = `<input id="url" type="text" placeholder="Paste link here..." style="width:80%; padding:10px; margin-bottom:10px;"><br>
+                                  <button onclick="handleBot('down')">Download Now</button>`;
+            } else if(tool === 'audio') {
+                title.innerText = "Audio Noise/Beat Cancellation";
+                area.innerHTML = `<p>Upload Audio for Voice-Only output:</p>
+                                  <input type="file" id="audiofile"><br><br>
+                                  <button onclick="handleBot('audio')">Process Audio</button>`;
+            }
+            // Bakki functions namukku backend code-il connect cheyyam
+        }
+
+        async function handleBot(type) {
+            alert("Sathanic Bot: Namaskaaram, ee feature ippo process cheyyunnu...");
+        }
+    </script>
+</body>
+</html>
