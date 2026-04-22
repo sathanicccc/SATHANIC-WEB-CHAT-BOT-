@@ -5,112 +5,156 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sathanic WhatsApp</title>
     <style>
-        /* Modern & Cyberpunk Styles */
-        body, html { margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #0b141a; color: white; overflow: hidden; }
+        body, html { margin: 0; padding: 0; font-family: 'Segoe UI', Helvetica, Arial, sans-serif; background-color: #0b141a; color: #e9edef; overflow: hidden; height: 100vh; }
         
-        /* Welcome Screen */
-        #welcome-screen {
-            position: fixed; width: 100%; height: 100%; background: black;
-            display: flex; justify-content: center; align-items: center; z-index: 100;
-            flex-direction: column; text-align: center;
-        }
-        #welcome-screen h1 { color: #00ff41; font-size: 2.5rem; text-shadow: 0 0 10px #00ff41; animation: glow 1.5s infinite alternate; }
+        /* WhatsApp Green Header */
+        .top-bar { background: #202c33; padding: 10px 16px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #222d32; }
+        .user-info { display: flex; align-items: center; gap: 12px; }
+        .avatar { width: 40px; height: 40px; background: #6a7175; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: white; }
         
-        /* WhatsApp Interface */
-        #main-container { display: none; height: 100vh; grid-template-columns: 30% 70%; }
-        #sidebar { background: #111b21; border-right: 1px solid #222d32; }
-        #chat-area { background: #0b141a; display: flex; flex-direction: column; }
-        
-        .header { background: #202c33; padding: 15px; display: flex; align-items: center; font-weight: bold; }
-        .features-list { padding: 10px; }
-        .feature-item { padding: 15px; border-bottom: 1px solid #222d32; cursor: pointer; transition: 0.3s; }
-        .feature-item:hover { background: #2a3942; }
+        /* Chat Layout */
+        #main-container { display: flex; height: calc(100vh - 60px); }
+        #sidebar { width: 30%; background: #111b21; border-right: 1px solid #222d32; overflow-y: auto; }
+        #chat-area { flex-grow: 1; display: flex; flex-direction: column; background-image: url('https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png'); background-color: #0b141a; background-blend-mode: overlay; }
 
-        @keyframes glow { from { opacity: 0.5; } to { opacity: 1; } }
+        /* Feature List Style */
+        .feature-item { padding: 15px; border-bottom: 1px solid #222d32; cursor: pointer; transition: 0.2s; display: flex; flex-direction: column; }
+        .feature-item:hover { background: #2a3942; }
+        .feature-name { font-weight: 500; font-size: 16px; color: #e9edef; }
+        .feature-desc { font-size: 13px; color: #8696a0; margin-top: 4px; }
+
+        /* Chat Bubbles */
+        #display-area { flex-grow: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
+        .msg { max-width: 65%; padding: 8px 12px; border-radius: 8px; font-size: 14.5px; position: relative; line-height: 1.4; box-shadow: 0 1px 0.5px rgba(0,0,0,0.13); }
+        .msg-received { background: #202c33; align-self: flex-start; border-top-left-radius: 0; color: #e9edef; }
+        .msg-sent { background: #005c4b; align-self: flex-end; border-top-right-radius: 0; color: #e9edef; }
+        
+        /* Input Area */
+        .input-area { background: #202c33; padding: 10px 16px; display: flex; align-items: center; gap: 10px; }
+        .input-box { flex-grow: 1; background: #2a3942; border: none; padding: 10px 15px; border-radius: 8px; color: white; outline: none; font-size: 15px; }
+        .send-btn { background: #00a884; color: white; border: none; padding: 10px 18px; border-radius: 50%; cursor: pointer; font-weight: bold; }
+
+        /* Welcome Screen */
+        #welcome-screen { position: fixed; inset: 0; background: #0b141a; z-index: 1000; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+        .start-btn { background: #00a884; color: #111b21; border: none; padding: 12px 30px; border-radius: 24px; font-weight: bold; cursor: pointer; margin-top: 20px; }
     </style>
 </head>
 <body>
 
     <div id="welcome-screen">
-        <h1>SATHANIC WHATSAPP<br>CHAT TO WELCOME</h1>
-        <p>Initializing Secure System...</p>
-        <button onclick="startApp()" style="margin-top:20px; padding:10px 20px; background:#25d366; border:none; border-radius:5px; cursor:pointer;">ENTER CHAT</button>
+        <div class="avatar" style="width: 80px; height: 80px; font-size: 30px; margin-bottom: 20px;">S</div>
+        <h1 style="color: #00a884;">SATHANIC BOT</h1>
+        <p style="color: #8696a0;">Initializing end-to-end encrypted chat...</p>
+        <button class="start-btn" onclick="startApp()">START CONVERSATION</button>
+    </div>
+
+    <div class="top-bar">
+        <div class="user-info">
+            <div class="avatar">S</div>
+            <div>
+                <div style="font-size: 16px; font-weight: 500;">Sathanic Bot V1</div>
+                <div style="font-size: 12px; color: #8696a0;">online</div>
+            </div>
+        </div>
+        <div style="color: #8696a0; font-size: 20px; cursor: pointer;">⋮</div>
     </div>
 
     <div id="main-container">
         <div id="sidebar">
-            <div class="header">Sathanic Bot Features</div>
-            <div class="features-list">
-                <div class="feature-item" onclick="showTool('downloader')">📥 All Downloader</div>
-                <div class="feature-item" onclick="showTool('sticker')">🎨 Sticker Maker</div>
-                <div class="feature-item" onclick="showTool('audio')">🎵 Audio Pro (Voice Only)</div>
-                <div class="feature-item" onclick="showTool('cloud')">🔒 Secure Cloud</div>
-                <div class="feature-item" onclick="showTool('status')">⚡ Bot Status (Ping)</div>
+            <div class="feature-item" onclick="showTool('downloader')">
+                <span class="feature-name">📥 All Downloader</span>
+                <span class="feature-desc">YT, Insta, FB downloads...</span>
+            </div>
+            <div class="feature-item" onclick="showTool('audio')">
+                <span class="feature-name">🎵 Audio Pro</span>
+                <span class="feature-desc">Voice & Noise cancellation...</span>
+            </div>
+            <div class="feature-item" onclick="showTool('sticker')">
+                <span class="feature-name">🎨 Sticker Maker</span>
+                <span class="feature-desc">Image to WhatsApp Sticker...</span>
+            </div>
+            <div class="feature-item" onclick="showTool('cloud')">
+                <span class="feature-name">🔒 Private Cloud</span>
+                <span class="feature-desc">Secure GitHub storage...</span>
+            </div>
+            <div class="feature-item" onclick="showTool('status')">
+                <span class="feature-name">⚡ Bot Status</span>
+                <span class="feature-desc">Check Ping & Server speed...</span>
             </div>
         </div>
+
         <div id="chat-area">
-            <div class="header" id="tool-title">Welcome to Sathanic Bot</div>
-            <div id="display-area" style="padding:20px; flex-grow:1; overflow-y:auto;">
-                <p>Select a tool from the sidebar to start.</p>
+            <div id="display-area">
+                <div class="msg msg-received">Hi Jobi, Sathanic Bot system-ilekku swagatham! Enthaanu ippo cheyyendath?</div>
             </div>
-            <div style="background:#202c33; padding:15px; display:flex;">
-                <input type="text" id="commandInput" placeholder="Type a command (e.g. .alive)" style="flex-grow:1; padding:10px; border-radius:20px; border:none; outline:none; background:#2a3942; color:white;">
+            <div class="input-area">
+                <input type="text" id="commandInput" class="input-box" placeholder="Type a message or command...">
+                <button class="send-btn" onclick="sendCustom()">➤</button>
             </div>
         </div>
     </div>
 
     <script>
-        // Ningalude Koyeb Link krithyamayi ivide connect cheythu
         const BACKEND_URL = "https://puzzled-cloe-sathaniccccc-5bc4e17e.koyeb.app";
 
         function startApp() {
             document.getElementById('welcome-screen').style.display = 'none';
-            document.getElementById('main-container').style.display = 'grid';
+        }
+
+        function appendMsg(text, type) {
+            const area = document.getElementById('display-area');
+            const div = document.createElement('div');
+            div.className = `msg ${type === 'sent' ? 'msg-sent' : 'msg-received'}`;
+            div.innerText = text;
+            area.appendChild(div);
+            area.scrollTop = area.scrollHeight;
         }
 
         function showTool(tool) {
-            let area = document.getElementById('display-area');
-            let title = document.getElementById('tool-title');
-            
             if(tool === 'downloader') {
-                title.innerText = "Downloader (Insta, YT, Audio)";
-                area.innerHTML = `<input id="url" type="text" placeholder="Paste link here..." style="width:80%; padding:10px; margin-bottom:10px; color: black;"><br>
-                                  <button onclick="handleBot('down')" style="padding:10px 20px; background:#25d366; border:none; border-radius:5px; cursor:pointer;">Download Now</button>`;
-            } else if(tool === 'audio') {
-                title.innerText = "Audio Noise/Beat Cancellation";
-                area.innerHTML = `<p>Upload Audio for Voice-Only output:</p>
-                                  <input type="file" id="audiofile"><br><br>
-                                  <button onclick="handleBot('audio')" style="padding:10px 20px; background:#25d366; border:none; border-radius:5px; cursor:pointer;">Process Audio</button>`;
+                appendMsg("Downloader select cheythu. Link paste cheyyu...", "received");
+                const area = document.getElementById('display-area');
+                area.innerHTML += `
+                    <div class="msg msg-received" style="background: #2a3942;">
+                        <input id="url" type="text" placeholder="Paste link..." style="width:100%; padding:8px; border-radius:5px; border:none; outline:none; margin-bottom:10px;">
+                        <button onclick="handleBot('down')" style="background:#00a884; border:none; color:white; padding:5px 10px; border-radius:5px; cursor:pointer; width:100%;">DOWNLOAD NOW</button>
+                    </div>`;
             } else if(tool === 'status') {
                 handleBot('ping');
+            } else {
+                appendMsg(`${tool} feature thudangunnu...`, "received");
             }
         }
 
         async function handleBot(type) {
-            const area = document.getElementById('display-area');
-            
             if(type === 'ping') {
+                appendMsg(".ping", "sent");
                 try {
                     const res = await fetch(`${BACKEND_URL}/api/ping`);
                     const data = await res.json();
-                    alert(`Sathanic Bot Status: ${data.status}\nPing: ${data.ping}`);
+                    appendMsg(`Status: ${data.status}\nServer: ${data.server}`, "received");
                 } catch(e) {
-                    alert("Backend connect aayilla. Koyeb check cheyyu!");
+                    appendMsg("Error: Server Offline aanu!", "received");
                 }
             }
-
             if(type === 'down') {
                 const link = document.getElementById('url').value;
-                if(!link) return alert("Link paste cheyyu!");
-                area.innerHTML = "<p style='color:#00ff41;'>Sathanic Bot: Downloading... Ippo ready aaki tharaam!</p>";
-                // Direct Backend-ilekku redirect cheyyunnu
-                window.location.href = `${BACKEND_URL}/api/download/yt?url=${link}`;
+                if(!link) return appendMsg("Error: Link illa!", "received");
+                appendMsg(`Processing: ${link}`, "sent");
+                appendMsg("Downloading... File ippo download aakum.", "received");
+                window.location.href = `${BACKEND_URL}/api/download/yt?url=${encodeURIComponent(link)}`;
             }
+        }
 
-            if(type === 'audio') {
-                alert("Sathanic Bot: Audio processing feature engine-il load cheyyunnu. Thalkkaalam wait cheyyu.");
+        function sendCustom() {
+            const val = document.getElementById('commandInput').value;
+            if(val) {
+                appendMsg(val, "sent");
+                document.getElementById('commandInput').value = "";
+                if(val.toLowerCase() === '.alive') appendMsg("Sathanic Bot is Live! 🔥", "received");
             }
         }
     </script>
 </body>
 </html>
+
