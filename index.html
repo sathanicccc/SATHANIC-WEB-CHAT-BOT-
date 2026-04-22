@@ -54,12 +54,15 @@
                 <p>Select a tool from the sidebar to start.</p>
             </div>
             <div style="background:#202c33; padding:15px; display:flex;">
-                <input type="text" placeholder="Type a command (e.g. .alive)" style="flex-grow:1; padding:10px; border-radius:20px; border:none; outline:none; background:#2a3942; color:white;">
+                <input type="text" id="commandInput" placeholder="Type a command (e.g. .alive)" style="flex-grow:1; padding:10px; border-radius:20px; border:none; outline:none; background:#2a3942; color:white;">
             </div>
         </div>
     </div>
 
     <script>
+        // Ningalude Koyeb Link krithyamayi ivide connect cheythu
+        const BACKEND_URL = "https://puzzled-cloe-sathaniccccc-5bc4e17e.koyeb.app";
+
         function startApp() {
             document.getElementById('welcome-screen').style.display = 'none';
             document.getElementById('main-container').style.display = 'grid';
@@ -71,19 +74,42 @@
             
             if(tool === 'downloader') {
                 title.innerText = "Downloader (Insta, YT, Audio)";
-                area.innerHTML = `<input id="url" type="text" placeholder="Paste link here..." style="width:80%; padding:10px; margin-bottom:10px;"><br>
-                                  <button onclick="handleBot('down')">Download Now</button>`;
+                area.innerHTML = `<input id="url" type="text" placeholder="Paste link here..." style="width:80%; padding:10px; margin-bottom:10px; color: black;"><br>
+                                  <button onclick="handleBot('down')" style="padding:10px 20px; background:#25d366; border:none; border-radius:5px; cursor:pointer;">Download Now</button>`;
             } else if(tool === 'audio') {
                 title.innerText = "Audio Noise/Beat Cancellation";
                 area.innerHTML = `<p>Upload Audio for Voice-Only output:</p>
                                   <input type="file" id="audiofile"><br><br>
-                                  <button onclick="handleBot('audio')">Process Audio</button>`;
+                                  <button onclick="handleBot('audio')" style="padding:10px 20px; background:#25d366; border:none; border-radius:5px; cursor:pointer;">Process Audio</button>`;
+            } else if(tool === 'status') {
+                handleBot('ping');
             }
-            // Bakki functions namukku backend code-il connect cheyyam
         }
 
         async function handleBot(type) {
-            alert("Sathanic Bot: Namaskaaram, ee feature ippo process cheyyunnu...");
+            const area = document.getElementById('display-area');
+            
+            if(type === 'ping') {
+                try {
+                    const res = await fetch(`${BACKEND_URL}/api/ping`);
+                    const data = await res.json();
+                    alert(`Sathanic Bot Status: ${data.status}\nPing: ${data.ping}`);
+                } catch(e) {
+                    alert("Backend connect aayilla. Koyeb check cheyyu!");
+                }
+            }
+
+            if(type === 'down') {
+                const link = document.getElementById('url').value;
+                if(!link) return alert("Link paste cheyyu!");
+                area.innerHTML = "<p style='color:#00ff41;'>Sathanic Bot: Downloading... Ippo ready aaki tharaam!</p>";
+                // Direct Backend-ilekku redirect cheyyunnu
+                window.location.href = `${BACKEND_URL}/api/download/yt?url=${link}`;
+            }
+
+            if(type === 'audio') {
+                alert("Sathanic Bot: Audio processing feature engine-il load cheyyunnu. Thalkkaalam wait cheyyu.");
+            }
         }
     </script>
 </body>
