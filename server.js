@@ -1,47 +1,37 @@
 const express = require('express');
 const cors = require('cors');
-const ytdl = require('@distube/ytdl-core');
-const instagramGetUrl = require('instagram-url-direct');
-const ffmpeg = require('fluent-ffmpeg');
+const { exec } = require('child_process');
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 
-// 1. Alive & Ping logic
 app.get('/api/ping', (req, res) => {
-    res.json({ status: "Sathanic Bot Online", ping: "Fast as light ⚡", lang: "Malayalam" });
+    res.json({ status: "Sathanic Bot Online 🔥", ping: "Running stable" });
 });
 
-// 2. YouTube & Short Downloader
-app.get('/api/download/yt', async (req, res) => {
-    const url = req.query.url;
-    try {
-        res.header('Content-Disposition', 'attachment; filename="video.mp4"');
-        ytdl(url, { format: 'mp4' }).pipe(res);
-    } catch (err) {
-        res.status(500).send("Error downloading YouTube video");
-    }
+// MP3 & MP4 Downloader using yt-dlp logic
+app.get('/api/download/yt', (req, res) => {
+    const videoURL = req.query.url;
+    if (!videoURL) return res.status(400).send("URL venam!");
+
+    // MP3 aanu kooduthal request varunnath ennu karuthi athu set cheyyunnu
+    res.header('Content-Disposition', 'attachment; filename="sathanic_audio.mp3"');
+    
+    // yt-dlp vazhi bot detection bypass cheythu direct audio stream cheyyunnu
+    const command = `yt-dlp -f bestaudio -o - "${videoURL}"`;
+    
+    const child = exec(command);
+    child.stdout.pipe(res);
+    
+    child.on('error', (err) => {
+        console.error(err);
+        res.status(500).send("Download error!");
+    });
 });
 
-// 3. Instagram Story/Video Downloader
-app.get('/api/download/insta', async (req, res) => {
-    const url = req.query.url;
-    try {
-        const result = await instagramGetUrl(url);
-        res.json(result);
-    } catch (err) {
-        res.status(500).send("Error downloading Instagram content");
-    }
+const PORT = process.env.PORT || 8080;
+app.listen(PORT, '0.0.0.0', () => {
+    console.log(`Server running on port ${PORT}`);
 });
 
-// 4. Audio Pro (Noise Cancellation Logic)
-app.post('/api/audio-pro', (req, res) => {
-    // Ithu FFmpeg upayogichu beat cut cheyyanulla basic setup aanu
-    // Voice output mathram kittaanaayi highpass/lowpass filters use cheyyum
-    console.log("Processing audio for voice only...");
-    res.json({ message: "Audio processing thudangi, Malayalam bot reply: Enthoora, ippo shariyakki tharaam!" });
-});
-
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Sathanic Server running on port ${PORT}`));
